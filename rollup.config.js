@@ -33,6 +33,7 @@ function serve() {
 export default {
 	input: 'src/main.ts',
 	output: {
+		intro: `globalThis.isProduction = ${production};`,
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',

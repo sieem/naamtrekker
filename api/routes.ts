@@ -5,6 +5,6 @@ const router = Router();
 
 
 router.get('/name', verifyToken, getName);
-router.post('/name', verifyToken, takeName);
+router.post('/name', takeName);
 
 export { router };

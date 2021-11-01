@@ -1,8 +1,12 @@
 <script lang="ts">
+import GetName from "./components/GetName.svelte";
+import TakeName from "./components/TakeName.svelte";
 </script>
 
 <main>
 	<h1>Naamtrekker</h1>
+	<GetName/>
+	<TakeName/>
 </main>
 
 <style>
