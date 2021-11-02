@@ -1,4 +1,5 @@
 import { getChosenName, getLoggedOutNames, setChosenName } from '../services/db.service';
+import { chooseName } from '../services/chooseName.service';
 
 export const getNames = async (req, res) => {
   try {
@@ -14,7 +15,7 @@ export const seeName = async (req, res) => {
   try {
     let chosenName = await getChosenName(req.name);
     if (!chosenName) {
-      chosenName = 'Siem';
+      chosenName = await chooseName(req.name);
       await setChosenName(req.name, chosenName);
     }
     res.status(200).json({ chosenName });

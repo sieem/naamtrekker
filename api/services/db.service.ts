@@ -6,6 +6,7 @@ interface IName {
   name: string;
   loggedIn: boolean;
   chosenName: string;
+  isChosen: boolean;
 }
 
 export class Name extends Model { }
@@ -34,13 +35,13 @@ export const addName = async (name) => {
   return record.toJSON();
 }
 
-export const addLoggedInStateToName = async (name) => {
+export const addLoggedInStateToName = async (name): Promise<void> => {
   await sequelize.sync();
   await Name.update({ loggedIn: true }, { where: { name } });
   return;
 }
 
-export const removeLoggedInStateToName = async (name) => {
+export const removeLoggedInStateToName = async (name): Promise<void> => {
   await sequelize.sync();
   await Name.update({ loggedIn: false }, { where: { name } });
   return;
@@ -53,19 +54,19 @@ export const setChosenName = async (name: string, chosenName: string) => {
   return;
 }
 
-export const getLoggedOutNames = async () => {
+export const getLoggedOutNames = async (): Promise<IName[]> => {
   await sequelize.sync();
   const records = await Name.findAll({ where: { loggedIn: false }});
-  return records.map((record) => record.toJSON());
+  return records.map((record) => record.toJSON()) as IName[];
 }
 
-export const getAvailableNames = async () => {
+export const getAvailableNames = async (): Promise<IName['name'][]> => {
   await sequelize.sync();
   const records = await Name.findAll({ where: { isChosen: false } });
-  return records.map((record) => record.toJSON());
+  return records.map((record) => (record.toJSON() as IName).name);
 }
 
-export const getChosenName = async (name: IName['name']) => {
+export const getChosenName = async (name: IName['name']): Promise<IName['chosenName']> => {
   await sequelize.sync();
   const record = await Name.findOne({where: { name }});
   const { chosenName } = record.toJSON() as IName;
