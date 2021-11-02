@@ -5,7 +5,8 @@ export const getNames = async (req, res) => {
     const names = await getUnhashedNames()
     res.status(200).json(names);
   } catch (error) {
-    res.status(400).text(error);
+    console.error(error);
+    res.status(400);
   }
 }
 
@@ -14,6 +15,7 @@ export const seeName = async (req, res) => {
     const chosenName = await getChosenName(req.name)
     res.status(200).json({ chosenName });
   } catch (error) {
-    res.status(400).text(error);
+    console.error(error);
+    res.status(400);
   }
 }

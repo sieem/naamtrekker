@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes } from 'sequelize';
+import { Sequelize, Model, DataTypes, Op } from 'sequelize';
 const sequelize = new Sequelize('sqlite:api/naamtrekker.sqlite');
 
 interface IName {
@@ -44,7 +44,7 @@ export const setChosenName = async (name, chosenName) => {
 
 export const getUnhashedNames = async () => {
   await sequelize.sync();
-  const records = await Name.findAll({ where: { hash: '' }});
+  const records = await Name.findAll({ where: { hash: { [Op.not]: null } }});
   return records.map((record) => record.toJSON());
 }
 

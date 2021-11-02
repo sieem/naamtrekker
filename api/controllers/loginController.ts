@@ -16,6 +16,7 @@ export const login = async (req, res) => {
     const token = sign(payload, secretKey())
     return res.status(200).send({ token });
   } catch (error) {
-    res.status(400).text(error);
+    console.error(error);
+    res.status(400);
   }
 }

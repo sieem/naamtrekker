@@ -1,12 +1,16 @@
 <script lang="ts">
 import SeeName from "./components/SeeName.svelte";
-import TakeName from "./components/TakeName.svelte";
+import { loggedIn } from "./services/auth.service";
+import Login from "./components/Login.svelte";
 </script>
 
 <main>
 	<h1>Naamtrekker</h1>
-	<SeeName/>
-	<TakeName/>
+	{#if $loggedIn}
+		<SeeName/>
+	{:else}
+		<Login/>
+	{/if}
 </main>
 
 <style>
