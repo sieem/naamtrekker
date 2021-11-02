@@ -16,12 +16,12 @@ export const initDb = async () =>  {
     chosenName: DataTypes.STRING,
   }, { sequelize, modelName: 'name' });
 
-  await addName({ name: 'Siem' });
-  await addName({ name: 'Han' });
-  await addName({ name: 'Fen' });
-  await addName({ name: 'Lien' });
-  await addName({ name: 'An' });
-  await addName({ name: 'David' });
+  await addName('Siem');
+  await addName('Han');
+  await addName('Fen');
+  await addName('Lien');
+  await addName('An');
+  await addName('David');
 }
 
 export const addName = async (name) => {
