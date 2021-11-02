@@ -1,8 +1,8 @@
-import { getChosenName, getAvailableUsers } from '../services/db.service';
+import { getChosenName, getLoggedOutNames, setChosenName } from '../services/db.service';
 
 export const getNames = async (req, res) => {
   try {
-    const names = await getAvailableUsers()
+    const names = await getLoggedOutNames()
     res.status(200).json(names);
   } catch (error) {
     console.error(error);
@@ -12,7 +12,11 @@ export const getNames = async (req, res) => {
 
 export const seeName = async (req, res) => {
   try {
-    const chosenName = await getChosenName(req.name)
+    let chosenName = await getChosenName(req.name);
+    if (!chosenName) {
+      chosenName = 'Siem';
+      await setChosenName(req.name, chosenName);
+    }
     res.status(200).json({ chosenName });
   } catch (error) {
     console.error(error);

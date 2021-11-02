@@ -10,8 +10,6 @@ export const login = async (req, res) => {
     const hash = await generateHash(name);
     await addLoggedInStateToName(name);
 
-    // TODO: setChosenName(name, 'chosenName');
-
     const payload = { name, hash }
     const token = sign(payload, secretKey())
     return res.status(200).send({ token });
