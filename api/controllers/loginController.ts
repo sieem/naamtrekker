@@ -5,6 +5,10 @@ import { secretKey } from '../utils/secretKey.util';
 
 export const login = async (req, res) => {
   const name = req.body.name;
+  
+  if (name === '') {
+    return res.status(400);
+  }
 
   try {
     const hash = await generateHash(name);

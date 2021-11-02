@@ -19,7 +19,7 @@ setNames();
 
 <div>
   <select bind:value={selectedName}>
-  <option>Kies een naam</option>
+  <option value>Kies een naam</option>
   {#each $names as { name }}
     <option value="{name}">{name}</option>
 	{/each}
