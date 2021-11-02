@@ -1,0 +1,17 @@
+<script lang="ts">
+import { logout } from "../services/api.service";
+import { removeToken } from "../services/auth.service";
+
+const handeClick = async () => {
+  await logout();
+  removeToken();
+}
+</script>
+
+<div>
+  <button on:click="{handeClick}">Uitloggen</button>
+</div>
+
+<style>
+
+</style>

@@ -1,11 +1,14 @@
 <script lang="ts">
 import { writable } from "svelte/store";
 
-import { getNames } from "../services/api.service";
+import { getNames, login } from "../services/api.service";
 
 const handeClick = () => {
-  // chooseName();
+  console.log(selectedName);
+  login(selectedName);
 }
+
+let selectedName;
 
 const names = writable([]);
 
@@ -15,11 +18,14 @@ setNames();
 </script>
 
 <div>
-  <select>
+  <select bind:value={selectedName}>
+  <option>Kies een naam</option>
   {#each $names as { name }}
-    <option value="name">{name}</option>
+    <option value="{name}">{name}</option>
 	{/each}
   </select>
+
+
   <button on:click="{handeClick}">Login</button>
 </div>
 

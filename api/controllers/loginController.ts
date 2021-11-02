@@ -1,5 +1,5 @@
 import { sign } from 'jsonwebtoken';
-import { addHashToName } from '../services/db.service';
+import { addLoggedInStateToName, removeLoggedInStateToName } from '../services/db.service';
 import { generateHash } from "../utils/generateHash.util";
 import { secretKey } from '../utils/secretKey.util';
 
@@ -8,13 +8,27 @@ export const login = async (req, res) => {
 
   try {
     const hash = await generateHash(name);
-    await addHashToName(name, hash);
+    await addLoggedInStateToName(name);
 
     // TODO: setChosenName(name, 'chosenName');
 
     const payload = { name, hash }
     const token = sign(payload, secretKey())
     return res.status(200).send({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(400);
+  }
+}
+
+export const logout = async (req, res) => {
+  const name = req.name;
+
+  try {
+    await removeLoggedInStateToName(name);
+
+
+    return res.status(200).send({ status: 'ok' });
   } catch (error) {
     console.error(error);
     res.status(400);

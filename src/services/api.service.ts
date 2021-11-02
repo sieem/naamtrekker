@@ -19,11 +19,11 @@ export const seeName = async () => {
   return await response.json();
 };
 
-export const login = async (chosenName: string) => {
+export const login = async (name: string) => {
   const response = await fetch(`${baseUrl}/login`, {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chosenName }),
+    body: JSON.stringify({ name }),
   });
   if (!response.ok) {
     throw await response.json()
@@ -32,4 +32,16 @@ export const login = async (chosenName: string) => {
   const { token } = await response.json();
   setToken(token);
   return;
+};
+
+export const logout = async () => {
+  const response = await fetch(`${baseUrl}/logout`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() }
+  });
+  if (!response.ok) {
+    throw await response.json()
+  }
+
+  return await response.json();
 };

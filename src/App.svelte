@@ -2,12 +2,14 @@
 import SeeName from "./components/SeeName.svelte";
 import { loggedIn } from "./services/auth.service";
 import Login from "./components/Login.svelte";
+import Logout from "./components/Logout.svelte";
 </script>
 
 <main>
 	<h1>Naamtrekker</h1>
 	{#if $loggedIn}
 		<SeeName/>
+		<Logout/>
 	{:else}
 		<Login/>
 	{/if}

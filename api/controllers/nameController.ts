@@ -1,8 +1,8 @@
-import { getChosenName, setChosenName, getUnhashedNames } from "../services/db.service";
+import { getChosenName, getAvailableUsers } from '../services/db.service';
 
 export const getNames = async (req, res) => {
   try {
-    const names = await getUnhashedNames()
+    const names = await getAvailableUsers()
     res.status(200).json(names);
   } catch (error) {
     console.error(error);
