@@ -1,8 +1,8 @@
 <script lang="ts">
-import { getName } from "../services/api.service";
+import { seeName } from "../services/api.service";
 
 const handeClick = () => {
-  getName();
+  seeName();
 }
 </script>
 

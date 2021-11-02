@@ -1,25 +1,18 @@
-import { hash } from "bcrypt";
-import { sign } from 'jsonwebtoken';
-import { secretKey } from "../utils/secretKey.util";
-const saltRounds = 10;
+import { getChosenName, setChosenName, getUnhashedNames } from "../services/db.service";
 
-export const takeName = async (req, res) => {
-  const user = req.body.user;
-  hash(`${secretKey()}/${user}`, saltRounds, (err, hash) => {
-    if (err) {
-      console.error(err)
-      return res.status(400).json(err.message)
-    }
-
-    const payload = { user, hash }
-    const token = sign(payload, secretKey())
-    return res.status(200).send({ token });
-  });
+export const getNames = async (req, res) => {
+  try {
+    const names = await getUnhashedNames()
+    res.status(200).json(names);
+  } catch (error) {
+    res.status(400).text(error);
+  }
 }
 
-export const getName = async (req, res) => {
+export const seeName = async (req, res) => {
   try {
-    res.status(200).json({ task: 'getName', user: req.user });
+    const chosenName = await getChosenName(req.name)
+    res.status(200).json({ chosenName });
   } catch (error) {
     res.status(400).text(error);
   }

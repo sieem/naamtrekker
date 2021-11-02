@@ -24,7 +24,7 @@ export const verifyToken = (req, res, next) => {
     return res.status(401).send('Unauthorized request');
   }
 
-  compare(`${secretKey()}/${payload.user}`, payload.hash, (err, result) => {
+  compare(`${secretKey()}/${payload.name}`, payload.hash, (err, result) => {
     if (err) {
       console.error(err)
       return res.status(400).json({ error: err.message })
@@ -33,7 +33,7 @@ export const verifyToken = (req, res, next) => {
       return res.status(401).json({ error: 'Invalid hash' })
     } else {
 
-      req.user = payload.user;
+      req.name = payload.name;
       next();
     }
   })
