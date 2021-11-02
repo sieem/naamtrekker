@@ -1,14 +1,14 @@
 import { config } from "dotenv";
 import express from "express";
 import cors from "cors";
-import type { AddressInfo } from "node:net";
+import type { AddressInfo } from "net";
 import compression from "compression";
 import { createReadStream } from "fs";
-import { extname } from "node:path";
-import { createServer } from "node:http";
+import { extname } from "path";
+import { createServer } from "http";
 import { router } from "./routes";
 import { initDb } from "./services/db.service";
-import { existsSync } from "node:fs";
+import { existsSync } from "fs";
 
 config();
 const app = express()
