@@ -15,7 +15,9 @@ export const initDb = async () =>  {
     hash: DataTypes.STRING,
     chosenName: DataTypes.STRING,
   }, { sequelize, modelName: 'name' });
+}
 
+export const populateDb = async () => {
   await addName('Siem');
   await addName('Han');
   await addName('Fen');
@@ -44,7 +46,7 @@ export const setChosenName = async (name, chosenName) => {
 
 export const getUnhashedNames = async () => {
   await sequelize.sync();
-  const records = await Name.findAll({ where: { hash: { [Op.not]: null } }});
+  const records = await Name.findAll({ where: { hash: { [Op.is]: null } }});
   return records.map((record) => record.toJSON());
 }
 
