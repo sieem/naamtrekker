@@ -10,7 +10,7 @@
     "start-api": "ts-node ./api/server",
     "dev-api": "nodemon ./api/server.ts",
     "test-api": "ts-node ./api/chooseName.spec.ts",
-    "build-api": "cd ./api && tsc"
+    "build-api": "tsc --project ./api/tsconfig.json"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
