@@ -13,5 +13,7 @@ const handeClick = async () => {
 </div>
 
 <style>
-
+div {
+  margin: 20px 0;
+}
 </style>

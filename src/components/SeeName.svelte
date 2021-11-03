@@ -1,21 +1,95 @@
 <script lang="ts">
 import { seeName } from "../services/api.service";
 
-let name;
+let name: string;
+let revealName;
 
 const handeClick = async () => {
+  revealName = !revealName;
   const {chosenName} = await seeName();
   name = chosenName;
 }
 </script>
 
 <div>
-  <button on:click="{handeClick}">get name</button>
-  {#if name}
-    <div>{name}</div> 
-  {/if}
+  <h3>Geef mij een tikje:</h3>
+  <div class="card {revealName === true ? 'focus': ''} {revealName === false? 'unfocus': ''}" on:click="{handeClick}">
+    <div class="card-inner">
+      <div class="card-front">
+      </div>
+      <div class="card-back">
+        <div class="inner">
+          <p>Je hebt gekozen:</p>
+          <h1>{name || '&nbsp;'}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
+.card {
+  background-color: transparent;
+  width: 288px;
+  height: 404px;
+  margin: auto;
+  perspective: 1000px;
+  cursor: pointer;
+}
 
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transform-style: preserve-3d;
+  transition: transform 5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.card.focus .card-inner {
+  transform: rotateY(3420deg);
+}
+
+.card.unfocus .card-inner {
+  transform: rotateY(3240deg);
+}
+
+.card.focus .card-back h1 {
+  animation: reveal 5s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.card-front {
+  background: url('/images/playing-card.png');
+}
+
+/* Style the back side */
+.card-back {
+  background-color: #F8F2F1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotateY(180deg);
+}
+
+@keyframes rotate {
+  0% { transform: rotateY(0deg) }
+  100% { transform: rotateY(3420deg) }
+}
+
+@keyframes reveal {
+  0% { opacity: 0; }
+  25% { opacity: 0; }
+  100% { opacity: 1; }
+}
 </style>
