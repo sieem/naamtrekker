@@ -1,8 +1,10 @@
 <script lang="ts">
 import SeeName from "./components/SeeName.svelte";
-import { loggedIn } from "./services/auth.service";
+import { loggedIn, setLoginState } from "./services/auth.service";
 import Login from "./components/Login.svelte";
 import Logout from "./components/Logout.svelte";
+
+setLoginState();
 </script>
 
 <main>

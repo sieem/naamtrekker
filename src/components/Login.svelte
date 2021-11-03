@@ -3,21 +3,23 @@ import { writable } from "svelte/store";
 
 import { getNames, login } from "../services/api.service";
 
+let selectedName: string;
+const names = writable([]);
+const setNames = async () => names.set(await getNames());
+
 const handeClick = () => {
-  console.log(selectedName);
+  if (!selectedName) {
+    return;
+  }
   login(selectedName);
 }
 
-let selectedName;
-
-const names = writable([]);
-
-const setNames = async () => names.set(await getNames());
 
 setNames();
 </script>
 
 <div>
+  <h3>Wie ben je?</h3>
   <select bind:value={selectedName}>
   <option value>Kies een naam</option>
   {#each $names as { name }}
@@ -26,7 +28,9 @@ setNames();
   </select>
 
 
-  <button on:click="{handeClick}">Login</button>
+  <button on:click="{handeClick}">
+    Ik ben {selectedName || 'onbekend'}
+  </button>
 </div>
 
 <style>
