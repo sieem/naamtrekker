@@ -12,7 +12,7 @@ import { existsSync } from "fs";
 
 config();
 const app = express()
-const staticRoot = '../public/'
+const staticRoot = '../../public/'
 
 app.use(express.json());
 app.use(cors());
