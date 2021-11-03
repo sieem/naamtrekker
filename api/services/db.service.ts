@@ -1,4 +1,5 @@
 import { Sequelize, Model, DataTypes, Op } from 'sequelize';
+import { allNames } from '../utils/allNames.utils';
 import { stringToBase64, base64ToString } from '../utils/base64.util';
 const sequelize = new Sequelize('sqlite:api/naamtrekker.sqlite');
 
@@ -21,12 +22,9 @@ export const initDb = async () =>  {
 }
 
 export const populateDb = async () => {
-  await addName('Siem');
-  await addName('Han');
-  await addName('Fen');
-  await addName('Lien');
-  await addName('An');
-  await addName('David');
+  for (const name of allNames) {
+    await addName(name);
+  }
 }
 
 export const addName = async (name) => {
@@ -66,10 +64,21 @@ export const getAvailableNames = async (): Promise<IName['name'][]> => {
   return records.map((record) => (record.toJSON() as IName).name);
 }
 
+export const getChosenNames = async (): Promise<IName['name'][]> => {
+  await sequelize.sync();
+  const records = await Name.findAll({ where: { chosenName: { [Op.not]: null} } });
+  return records.map((record) => (record.toJSON() as IName).name);
+}
+
 export const getChosenName = async (name: IName['name']): Promise<IName['chosenName']> => {
   await sequelize.sync();
   const record = await Name.findOne({where: { name }});
   const { chosenName } = record.toJSON() as IName;
 
   return chosenName ? base64ToString(chosenName) : null;
+}
+
+export const clearDb = async (): Promise<void> => {
+  await sequelize.sync();
+  await Name.destroy({ truncate: true });
 }

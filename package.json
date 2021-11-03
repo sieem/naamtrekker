@@ -9,6 +9,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "start-api": "ts-node ./api/server",
     "dev-api": "nodemon ./api/server.ts",
+    "test-api": "ts-node ./api/chooseName.spec.ts",
     "build-api": "cd ./api && tsc"
   },
   "devDependencies": {
