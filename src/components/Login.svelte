@@ -29,7 +29,11 @@ setNames();
 
 
   <button on:click="{handeClick}">
-    Ik ben {selectedName || 'onbekend'}
+    {#if selectedName}
+      Aha! Ik ben <b>{selectedName}</b>
+    {:else}
+      Ik ben nog niemand
+    {/if}
   </button>
 </div>
 

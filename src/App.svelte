@@ -8,7 +8,7 @@ setLoginState();
 </script>
 
 <main>
-	<h1>Naamtrekker</h1>
+	<h1>Secret Lasseel</h1>
 	{#if $loggedIn}
 		<SeeName/>
 		<!-- <Logout/> -->
@@ -21,13 +21,11 @@ setLoginState();
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
 	}
 
 	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
+		font-family: 'Dancing Script', cursive;
 		font-size: 4em;
 		font-weight: 100;
 	}
