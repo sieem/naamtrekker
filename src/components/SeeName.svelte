@@ -6,6 +6,11 @@ let revealName;
 
 const handeClick = async () => {
   revealName = !revealName;
+
+  if (name) {
+    return;
+  }
+
   const {chosenName} = await seeName();
   name = chosenName;
 }
@@ -19,12 +24,15 @@ const handeClick = async () => {
       </div>
       <div class="card-back">
         <div class="inner">
-          <p>Je hebt gekozen:</p>
+          <p>Jouw gekozen naam:</p>
           <h1>{name || '&nbsp;'}</h1>
         </div>
       </div>
     </div>
   </div>
+  {#if name}
+    <p class="bonusHint">Geef mij nog een tikje om mij te verbergen.</p>
+  {/if}
 </div>
 
 <style>
@@ -32,7 +40,7 @@ const handeClick = async () => {
   background-color: transparent;
   width: 288px;
   height: 404px;
-  margin: auto;
+  margin: 30px auto;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -44,6 +52,10 @@ const handeClick = async () => {
   text-align: center;
   transform-style: preserve-3d;
   transition: transform 5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.card-inner h1 {
+  font-family: 'Dancing Script', cursive;
 }
 
 .card.focus .card-inner {
@@ -82,11 +94,10 @@ const handeClick = async () => {
   transform: rotateY(180deg);
 }
 
-@keyframes rotate {
-  0% { transform: rotateY(0deg) }
-  100% { transform: rotateY(3420deg) }
+.bonusHint {
+  animation: reveal 5s cubic-bezier(0.25, 1, 0.5, 1) both;
+  animation-delay: 1s;
 }
-
 @keyframes reveal {
   0% { opacity: 0; }
   25% { opacity: 0; }
