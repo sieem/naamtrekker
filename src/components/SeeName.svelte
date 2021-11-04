@@ -6,6 +6,11 @@ let revealName;
 
 const handeClick = async () => {
   revealName = !revealName;
+
+  if (name) {
+    return;
+  }
+
   const {chosenName} = await seeName();
   name = chosenName;
 }
