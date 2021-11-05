@@ -35,10 +35,15 @@ export const addName = async (name: string, guid: string) => {
   return record.toJSON();
 }
 
-export const addLoggedInStateToName = async (name): Promise<void> => {
+export const addLoggedInStateToName = async (name): Promise<boolean> => {
   await sequelize.sync();
+  const record = await Name.findOne({ attributes: ['loggedIn'], where: { name } });
+  const { loggedIn } = record.toJSON() as IName;
+  if (loggedIn === true) {
+    return false;
+  }
   await Name.update({ loggedIn: true }, { where: { name } });
-  return;
+  return true;
 }
 
 export const removeLoggedInStateToName = async (name): Promise<void> => {

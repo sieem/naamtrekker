@@ -12,14 +12,22 @@ export const login = async (req, res) => {
 
   try {
     const hash = await generateHash(name);
-    await addLoggedInStateToName(name);
+    const status = await addLoggedInStateToName(name);
 
-    const payload = { name, hash };
-    const token = sign(payload, secretKey(), { expiresIn: '180 days' });
-    return res.status(200).send({ token });
+    if (status) {
+      const payload = { name, hash };
+      const token = sign(payload, secretKey(), { expiresIn: '180 days' });
+      return res.status(200).send({ token });
+    }
+    else {
+      console.error(`${name} already logged in`)
+      return res.status(401).json({ error: 'Already logged in' });
+    }
+
+
   } catch (error) {
     console.error(error);
-    res.status(400);
+    return res.status(400);
   }
 }
 
