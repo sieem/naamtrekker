@@ -1,6 +1,7 @@
 import { compare } from 'bcrypt';
-import { verify } from 'jsonwebtoken';
+import { decode, verify } from 'jsonwebtoken';
 import { secretKey } from '../utils/secretKey.util';
+import { removeLoggedInStateToName } from '../services/db.service';
 
 export const verifyToken = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -11,17 +12,22 @@ export const verifyToken = (req, res, next) => {
     return res.status(401).send('Unauthorized request');
   }
 
-  let payload: any = {};
+  let payload: any;
   try {
     payload = verify(token, secretKey());
 
   } catch (error) {
-    console.error(error);
-    return res.status(401).send('Invalid Signature');
+    if (error.message === 'jwt expired') {
+      payload = decode(token);
+      removeLoggedInStateToName(payload.name);
+      return res.status(401).send({ error: 'jwt expired' });
+    }
+    console.log(error);
+    return res.status(401).send({ error: 'Invalid Signature' });
   }
 
   if (!payload) {
-    return res.status(401).send('Unauthorized request');
+    return res.status(401).send({ error: 'Unauthorized request' });
   }
 
   compare(`${secretKey()}/${payload.name}`, payload.hash, (err, result) => {

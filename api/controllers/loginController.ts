@@ -14,8 +14,8 @@ export const login = async (req, res) => {
     const hash = await generateHash(name);
     await addLoggedInStateToName(name);
 
-    const payload = { name, hash }
-    const token = sign(payload, secretKey())
+    const payload = { name, hash };
+    const token = sign(payload, secretKey(), { expiresIn: '180 days' });
     return res.status(200).send({ token });
   } catch (error) {
     console.error(error);

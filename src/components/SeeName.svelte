@@ -1,19 +1,25 @@
 <script lang="ts">
 import { seeName } from "../services/api.service";
+import { removeToken } from "../services/auth.service";
 
 let name: string;
 let revealName;
 
-const handeClick = async () => {
-  revealName = !revealName;
-
-  if (name) {
-    return;
+(async () => {
+  try {
+    const { chosenName } = await seeName();
+    name = chosenName;
+  } catch ({ error }) {
+    if (error === 'jwt expired') {
+      removeToken();
+    }
   }
+})();
 
-  const {chosenName} = await seeName();
-  name = chosenName;
+const handeClick = () => {
+  revealName = !revealName;
 }
+
 </script>
 
 <div>
