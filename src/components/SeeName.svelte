@@ -3,7 +3,7 @@ import { seeName } from "../services/api.service";
 import { removeToken } from "../services/auth.service";
 
 let name: string;
-let revealName;
+let revealName: boolean;
 
 (async () => {
   try {
@@ -36,9 +36,7 @@ const handeClick = () => {
       </div>
     </div>
   </div>
-  {#if name}
-    <p class="bonusHint">Geef mij nog een tikje om mij te verbergen.</p>
-  {/if}
+  <p class="bonusHint">Geef mij nog een tikje om mij te verbergen.</p>
 </div>
 
 <style>
