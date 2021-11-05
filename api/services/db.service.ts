@@ -54,7 +54,7 @@ export const setChosenName = async (name: string, chosenName: string) => {
 
 export const getLoggedOutNames = async (): Promise<IName[]> => {
   await sequelize.sync();
-  const records = await Name.findAll({ where: { loggedIn: false }});
+  const records = await Name.findAll({ attributes: ['name'], where: { loggedIn: false }});
   return records.map((record) => record.toJSON()) as IName[];
 }
 
