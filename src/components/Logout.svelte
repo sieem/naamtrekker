@@ -3,8 +3,10 @@ import { logout } from "../services/api.service";
 import { removeToken } from "../services/auth.service";
 
 const handeClick = async () => {
-  await logout();
-  removeToken();
+  if (confirm('Zeker dat je wil uitloggen?')) {
+    await logout();
+    removeToken();
+  }
 }
 </script>
 

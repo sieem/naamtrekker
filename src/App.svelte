@@ -11,7 +11,7 @@ setLoginState();
 	<h1>Secret Lasseel</h1>
 	{#if $loggedIn}
 		<SeeName/>
-		<!-- <Logout/> -->
+		<Logout/>
 	{:else}
 		<Login/>
 	{/if}
