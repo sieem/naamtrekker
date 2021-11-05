@@ -82,7 +82,7 @@ const handeClick = async () => {
 }
 
 .card-front {
-  background: url('/images/playing-card.png');
+  background: url('../images/playing-card.png');
 }
 
 /* Style the back side */
