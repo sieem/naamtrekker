@@ -3,8 +3,8 @@ import { getToken, setToken } from './auth.service';
 const baseUrl = globalThis.isProduction ? 'api' : 'http://localhost:3001/api';
 const authHeaders = () => ({ Authorization: `bearer ${getToken()}` });
 
-export const getNames = async () => {
-  const response = await fetch(`${baseUrl}/names`);
+export const getOwnName = async (guid: string) => {
+  const response = await fetch(`${baseUrl}/name/${guid}`);
   if (!response.ok) {
     throw await response.json()
   }

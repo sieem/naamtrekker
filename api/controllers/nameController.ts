@@ -1,10 +1,10 @@
-import { getChosenName, getLoggedOutNames, setChosenName } from '../services/db.service';
+import { getChosenName, getOwnNameViaGuid, setChosenName } from '../services/db.service';
 import { chooseName } from '../services/chooseName.service';
 
-export const getNames = async (req, res) => {
+export const getOwnName = async (req, res) => {
   try {
-    const names = await getLoggedOutNames()
-    res.status(200).json(names);
+    const name = await getOwnNameViaGuid(req.params.guid);
+    res.status(200).json({ name });
   } catch (error) {
     console.error(error);
     res.status(400);

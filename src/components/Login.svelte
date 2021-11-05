@@ -1,36 +1,38 @@
 <script lang="ts">
 import { writable } from "svelte/store";
+import { getOwnName, login } from "../services/api.service";
 
-import { getNames, login } from "../services/api.service";
+const nameStore = writable<string>();
+const setName = async () => {
+  const params = new URLSearchParams(window.location.search);
+  const guid = params.get("guid");
 
-let selectedName: string;
-const names = writable([]);
-const setNames = async () => names.set(await getNames());
-
-const handeClick = () => {
-  if (!selectedName) {
+  if (!guid) {
     return;
   }
-  login(selectedName);
+
+  const { name } = await getOwnName(guid);
+  nameStore.set(name);
+};
+setName();
+
+const handeClick = async () => {
+  nameStore.subscribe((_name) => {
+    if (!_name) {
+      return;
+    }
+
+    login(_name);
+  })();
 }
-
-
-setNames();
 </script>
 
 <div>
-  <h3>Wie ben je?</h3>
-  <select bind:value={selectedName}>
-  <option value>Kies een naam</option>
-  {#each $names as { name }}
-    <option value="{name}">{name}</option>
-	{/each}
-  </select>
-
+  <h3>Log in:</h3>
 
   <button on:click="{handeClick}">
-    {#if selectedName}
-      Aha! Ik ben <b>{selectedName}</b>
+    {#if $nameStore}
+      Aha! Ik ben <b>{$nameStore}</b>
     {:else}
       Ik ben nog niemand
     {/if}

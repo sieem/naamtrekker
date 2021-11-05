@@ -1,6 +1,7 @@
 import { Sequelize, Model, DataTypes, Op } from 'sequelize';
 import { allNames } from '../utils/allNames.utils';
 import { stringToBase64, base64ToString } from '../utils/base64.util';
+import { v4 as uuidv4 } from 'uuid';
 const sequelize = new Sequelize('sqlite:api/naamtrekker.sqlite');
 
 interface IName {
@@ -15,21 +16,22 @@ export class Name extends Model { }
 export const initDb = async () =>  {
   Name.init({
     name: DataTypes.STRING,
-    loggedIn: DataTypes.BOOLEAN,
+    guid: DataTypes.STRING,
     chosenName: DataTypes.STRING,
+    loggedIn: DataTypes.BOOLEAN,
     isChosen: DataTypes.BOOLEAN,
   }, { sequelize, modelName: 'name' });
 }
 
 export const populateDb = async () => {
   for (const name of allNames) {
-    await addName(name);
+    await addName(name, uuidv4());
   }
 }
 
-export const addName = async (name) => {
+export const addName = async (name: string, guid: string) => {
   await sequelize.sync();
-  const record = await Name.create({ name, loggedIn: false, isChosen: false });
+  const record = await Name.create({ name, guid, loggedIn: false, isChosen: false });
   return record.toJSON();
 }
 
@@ -52,10 +54,11 @@ export const setChosenName = async (name: string, chosenName: string) => {
   return;
 }
 
-export const getLoggedOutNames = async (): Promise<IName[]> => {
+export const getOwnNameViaGuid = async (guid: string): Promise<IName['name']> => {
   await sequelize.sync();
-  const records = await Name.findAll({ attributes: ['name'], where: { loggedIn: false }});
-  return records.map((record) => record.toJSON()) as IName[];
+  const record = await Name.findOne({ attributes: ['name'], where: { guid }});
+  const { name } = record ? record.toJSON() as IName : { name: ''};
+  return name;
 }
 
 export const getAvailableNames = async (): Promise<IName['name'][]> => {
@@ -72,7 +75,7 @@ export const getChosenNames = async (): Promise<IName['name'][]> => {
 
 export const getChosenName = async (name: IName['name']): Promise<IName['chosenName']> => {
   await sequelize.sync();
-  const record = await Name.findOne({where: { name }});
+  const record = await Name.findOne({ attributes: ['chosenName'], where: { name } });
   const { chosenName } = record.toJSON() as IName;
 
   return chosenName ? base64ToString(chosenName) : null;
