@@ -1,12 +1,9 @@
 import { Router } from "express";
-import { login, logout } from './controllers/loginController';
 import { seeName, getOwnName } from "./controllers/nameController";
-import { verifyToken } from "./middleware/authMiddleware";
+import { verifyGuid } from "./middleware/authMiddleware";
 const router = Router();
 
-router.get('/name/:guid', getOwnName);
-router.get('/name', verifyToken, seeName);
-router.post('/login', login);
-router.post('/logout', verifyToken, logout);
+router.get('/my-name', verifyGuid, getOwnName);
+router.get('/chosen-name', verifyGuid, seeName);
 
 export { router };

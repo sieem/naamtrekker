@@ -1,18 +1,24 @@
-import { writable } from "svelte/store";
-
+import { writable } from 'svelte/store';
+import { getOwnName } from './api.service';
 const tokenName = 'nameToken';
 
-export const loggedIn = writable(false);
 
-export const getToken = () => localStorage.getItem(tokenName);
-export const setToken = (token: string) => {
-  localStorage.setItem(tokenName, token);
-  loggedIn.set(true);
+export const nameStore = writable<string>();
+export const getGuid = (): string | null => {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('guid');
+}
+export const setName = async () => {
+  const guid = getGuid();
+
+  if (!guid) {
+    return;
+  }
+
+  const { name } = await getOwnName(guid);
+  nameStore.set(name);
 };
 
 export const removeToken = () => {
   localStorage.removeItem(tokenName);
-  loggedIn.set(false);
 };
-
-export const setLoginState = () => loggedIn.set(!!localStorage.getItem(tokenName));

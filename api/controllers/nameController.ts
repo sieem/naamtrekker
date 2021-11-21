@@ -1,10 +1,9 @@
-import { getChosenName, getOwnNameViaGuid, setChosenName } from '../services/db.service';
+import { getChosenName, setChosenName } from '../services/db.service';
 import { chooseName } from '../services/chooseName.service';
 
 export const getOwnName = async (req, res) => {
   try {
-    const name = await getOwnNameViaGuid(req.params.guid);
-    res.status(200).json({ name });
+    res.status(200).json({ name: req.name });
   } catch (error) {
     console.error(error);
     res.status(400);

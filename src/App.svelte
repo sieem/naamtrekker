@@ -1,19 +1,17 @@
 <script lang="ts">
 import SeeName from "./components/SeeName.svelte";
-import { loggedIn, setLoginState } from "./services/auth.service";
-import Login from "./components/Login.svelte";
-import Logout from "./components/Logout.svelte";
+import { nameStore, removeToken, setName } from "./services/auth.service";
 
-setLoginState();
+setName();
+removeToken();
 </script>
 
 <main>
 	<h1>Secret Lasseel</h1>
-	{#if $loggedIn}
+	{#if $nameStore}
 		<SeeName/>
-		<Logout/>
 	{:else}
-		<Login/>
+		<p>Geen naam gevonden, misschien zit je niet op je persoonlijke url?</p>
 	{/if}
 </main>
 

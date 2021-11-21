@@ -1,19 +1,13 @@
 <script lang="ts">
 import { seeName } from "../services/api.service";
-import { removeToken } from "../services/auth.service";
+import { nameStore } from "../services/auth.service";
 
 let name: string;
 let revealName: boolean;
 
 (async () => {
-  try {
-    const { chosenName } = await seeName();
-    name = chosenName;
-  } catch ({ error }) {
-    if (error === 'jwt expired') {
-      removeToken();
-    }
-  }
+  const { chosenName } = await seeName();
+  name = chosenName;
 })();
 
 const handeClick = () => {
@@ -23,8 +17,9 @@ const handeClick = () => {
 </script>
 
 <div>
-  <h3>Geef mij een tikje:</h3>
-  <div class="card {revealName === true ? 'focus': ''} {revealName === false? 'unfocus': ''}" on:click="{handeClick}">
+  <h2>Welkom {$nameStore}!</h2>
+  <p>Geef mij een tikje:</p>
+  <div class="card {revealName ? 'focus': ''} {revealName === false ? 'unfocus': ''}" on:click="{handeClick}">
     <div class="card-inner">
       <div class="card-front">
       </div>
@@ -36,7 +31,7 @@ const handeClick = () => {
       </div>
     </div>
   </div>
-  <p class="bonusHint">Geef mij nog een tikje om mij te verbergen.</p>
+  <p class="bonusHint {revealName ? 'reveal': ''}">Geef mij nog een tikje om mij te verbergen.</p>
 </div>
 
 <style>
@@ -99,9 +94,14 @@ const handeClick = () => {
 }
 
 .bonusHint {
+  opacity: 0;
+}
+
+.bonusHint.reveal {
   animation: reveal 5s cubic-bezier(0.25, 1, 0.5, 1) both;
   animation-delay: 1s;
 }
+
 @keyframes reveal {
   0% { opacity: 0; }
   25% { opacity: 0; }

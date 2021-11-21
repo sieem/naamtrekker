@@ -6,7 +6,7 @@ const sequelize = new Sequelize('sqlite:api/naamtrekker.sqlite');
 
 interface IName {
   name: string;
-  loggedIn: boolean;
+  guid: string;
   chosenName: string;
   isChosen: boolean;
 }
@@ -18,7 +18,6 @@ export const initDb = async () =>  {
     name: DataTypes.STRING,
     guid: DataTypes.STRING,
     chosenName: DataTypes.STRING,
-    loggedIn: DataTypes.BOOLEAN,
     isChosen: DataTypes.BOOLEAN,
   }, { sequelize, modelName: 'name' });
 }
@@ -31,25 +30,8 @@ export const populateDb = async () => {
 
 export const addName = async (name: string, guid: string) => {
   await sequelize.sync();
-  const record = await Name.create({ name, guid, loggedIn: false, isChosen: false });
+  const record = await Name.create({ name, guid, isChosen: false });
   return record.toJSON();
-}
-
-export const addLoggedInStateToName = async (name): Promise<boolean> => {
-  await sequelize.sync();
-  const record = await Name.findOne({ attributes: ['loggedIn'], where: { name } });
-  const { loggedIn } = record.toJSON() as IName;
-  if (loggedIn === true) {
-    return false;
-  }
-  await Name.update({ loggedIn: true }, { where: { name } });
-  return true;
-}
-
-export const removeLoggedInStateToName = async (name): Promise<void> => {
-  await sequelize.sync();
-  await Name.update({ loggedIn: false }, { where: { name } });
-  return;
 }
 
 export const setChosenName = async (name: string, chosenName: string) => {
@@ -62,7 +44,7 @@ export const setChosenName = async (name: string, chosenName: string) => {
 export const getOwnNameViaGuid = async (guid: string): Promise<IName['name']> => {
   await sequelize.sync();
   const record = await Name.findOne({ attributes: ['name'], where: { guid }});
-  const { name } = record ? record.toJSON() as IName : { name: ''};
+  const { name } = record ? record.toJSON() as IName : { name: null };
   return name;
 }
 
