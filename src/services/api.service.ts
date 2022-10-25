@@ -1,6 +1,6 @@
 import { getGuid } from "./auth.service";
 
-const baseUrl = globalThis.isProduction ? 'api' : 'http://localhost:3001/api';
+const baseUrl = import.meta.env.MODE === 'production' ? 'api' : 'http://localhost:3002/api';
 const authHeaders = () => ({ guid: getGuid() });
 
 export const getOwnName = async (guid: string) => {
