@@ -1,1 +1,1 @@
-export const allNames = ['Siem', 'An', 'David', 'Fen', 'Han', 'Lien', 'Mil', 'Jamina'];
+export const allNames = ['Siem', 'An', 'David', 'Fen', 'Han', 'Lien', 'Mil', 'Jamina', 'Sem', 'Marie', 'Bas'];

@@ -46,7 +46,7 @@ app.use(function (req, res, next) {
 app.use(express.static(staticRoot, { dotfiles: 'allow' }));
 
 const httpServer = createServer(app);
-httpServer.listen(process.env.PORT ?? 3002, () => {
+httpServer.listen(process.env.PORT ?? 3001, () => {
   const { port } = httpServer.address() as AddressInfo;
   console.log(`App listening on port ${ port } Non-SSL`);
 });

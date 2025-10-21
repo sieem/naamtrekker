@@ -4,3 +4,4 @@
 naamtrekker.sqlite
 /api/dist/
 namen*
+.DS_Store
