@@ -23,7 +23,7 @@ export const initYear = async (req, res) => {
     await chooseNamesWithRetry(year);
     for (let name of allNames) {
       const nameGuid = await dbService.getGuidByName(name, year);
-      appendFileSync(`namen${year}.txt`, `${name}: https://home.siemlasseel.be/naamtrekker/?guid=${nameGuid}\n`, 'utf8');
+      appendFileSync(`namen${year}.txt`, `${name}: https://home.sieem.be/naamtrekker/?guid=${nameGuid}\n`, 'utf8');
     }
     res.status(200).json({ message: 'Year initialized successfully' });
   } catch (error) {
