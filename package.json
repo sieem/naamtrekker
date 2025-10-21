@@ -7,6 +7,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
+    "typeCheck-api": "cd api && tsc --noEmit",
     "start-api": "ts-node ./api/server",
     "dev-api": "nodemon ./api/server.ts",
     "test-api": "ts-node ./api/chooseName.spec.ts",

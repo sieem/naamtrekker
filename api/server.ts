@@ -7,8 +7,7 @@ import { createReadStream } from "fs";
 import { extname } from "path";
 import { createServer } from "http";
 import { router } from "./routes";
-import { initDb, populateDb } from './services/db.service';
-import { existsSync } from "fs";
+import { dbService } from './services/db.service';
 
 config();
 const app = express()
@@ -18,11 +17,7 @@ app.use(express.json());
 app.use(cors());
 app.use(compression());
 
-initDb().then(() => {
-  if (!existsSync('./api/naamtrekker.sqlite')) {
-    populateDb();
-  }
-});
+dbService.initDb();
 
 app.use('/api', router);
 

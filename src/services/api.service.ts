@@ -1,9 +1,9 @@
 import { getGuid } from "./auth.service";
 
-const baseUrl = import.meta.env.MODE === 'production' ? 'api' : 'http://localhost:3002/api';
+const baseUrl = import.meta.env.MODE === 'production' ? 'api' : 'http://localhost:3001/api';
 const authHeaders = () => ({ guid: getGuid() });
 
-export const getOwnName = async (guid: string) => {
+export const getOwnName = async () => {
   const response = await fetch(`${baseUrl}/my-name`, { headers: authHeaders() });
   if (!response.ok) {
     throw await response.json()

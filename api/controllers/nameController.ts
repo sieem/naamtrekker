@@ -1,5 +1,4 @@
-import { getChosenName, setChosenName } from '../services/db.service';
-import { chooseName } from '../services/chooseName.service';
+import { dbService } from '../services/db.service';
 
 export const getOwnName = async (req, res) => {
   try {
@@ -12,11 +11,8 @@ export const getOwnName = async (req, res) => {
 
 export const seeName = async (req, res) => {
   try {
-    let chosenName = await getChosenName(req.name);
-    if (!chosenName) {
-      chosenName = await chooseName(req.name);
-      await setChosenName(req.name, chosenName);
-    }
+    const year = new Date().getFullYear();
+    const chosenName = await dbService.getChosenName(req.name, year);
     res.status(200).json({ chosenName });
   } catch (error) {
     console.error(error);

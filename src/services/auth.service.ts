@@ -15,7 +15,7 @@ export const setName = async () => {
     return;
   }
 
-  const { name } = await getOwnName(guid);
+  const { name } = await getOwnName();
   nameStore.set(name);
 };
 
