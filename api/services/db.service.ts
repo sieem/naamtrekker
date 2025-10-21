@@ -47,6 +47,11 @@ class DbService {
     return;
   }
 
+  async getGuidByName(name: string, year: number): Promise<IName['guid']> {
+    const record = await Name.findOne({ attributes: ['guid'], where: { name, year } });
+    return record ? (record.toJSON() as IName).guid : null;
+  }
+
   async getOwnNameViaGuid(guid: string, year: number): Promise<IName['name']> {
     const record = await Name.findOne({ attributes: ['name'], where: { guid, year } });
     const { name } = record ? record.toJSON() as IName : { name: null };
